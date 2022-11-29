@@ -1,9 +1,12 @@
-import { createBrowserRouter, createRoutesFromElements, Route } from "react-router-dom";
-import { App } from "./app";
+import { createBrowserRouter, createRoutesFromElements, Route, useLocation } from "react-router-dom";
+import {Subscribe} from "./pages/Subscribe";
+import {Home} from "./pages/Home";
+
 
 const router = createBrowserRouter(createRoutesFromElements(
     <Route>
-        <Route path="/" element={<App />} />
+        {/* jika admin */}
+        <Route path="/" element={<Home />} />
     </Route>
 ));
 
