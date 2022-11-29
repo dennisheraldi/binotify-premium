@@ -1,5 +1,5 @@
 import { createRef } from 'preact';
-import { forwardRef } from 'preact/compact';
+import { forwardRef } from 'preact/compat';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 
