@@ -1,5 +1,4 @@
 import { createBrowserRouter, createRoutesFromElements, Route, useLocation } from "react-router-dom";
-import {Subscribe} from "./pages/Subscribe";
 import {Home} from "./pages/Home";
 
 
