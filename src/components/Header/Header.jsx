@@ -4,7 +4,6 @@ import Box from '@mui/material/Box';
 import { headerStyles } from './styles';
 
 const Header = ({ title }) => {
-
     return (
         <Box sx={headerStyles.wrapper}>
             <Box sx={headerStyles.topRow}>
@@ -17,8 +16,6 @@ const Header = ({ title }) => {
                     </Typography>
                 </Box>
                 <Box sx={headerStyles.rightSide}>
-                    <Logout
-                    />
                     <Avatar src="https://mui.com/static/images/avatar/1.jpg" />
                 </Box>
             </Box>
