@@ -1,39 +1,52 @@
-import { useEffect, useState } from 'preact/hooks'
+import { useEffect, useMemo, useState } from 'preact/hooks'
 import DataTable from '../common/DataTable/DataTable';
-
-const columns = [
-    {field:'creator_id', headerName:'creatorID', width: 200},
-    {field:'subscriber_id', headerName:'subscriberId', width: 200},
-    {field:'status', headerName:'Status', width: 200},
-];
+import UserActions from './UserActions';
 
 const userTableStyles = {
     height: '650px',
+    width: '100%',
+    margin: 'auto',
+    
 };
 
 const UserTable = ({ onError }) => {
     const [users, setUsers] = useState([]);
+    const [rowId, setRowId] = useState(null);
+
+const columns = useMemo(
+    () => [
+    {field:'creator_id', headerName:'creatorID', width: 200},
+    {field:'subscriber_id', headerName:'subscriberId', width: 200},
+    {field:'status', headerName:'Status', width: 200},
+    {field:'accept', headerName:'Accept', width: 100, type: 'singleSelect', valueOptions: ['yes', 'no'], editable: true},
+    {field:'action', headerName:'Action', width: 100,   type:'actions', renderCell: (params) => <UserActions/>},
+], []);
+
+const subscriber = [{
+    creator_id: '1',
+    subscriber_id: '2',
+    status: 'PENDING',
+
+  },
+  {
+    creator_id: '2',
+    subscriber_id: '3',
+    status: 'PENDING',
+  }
+    ];
 
     useEffect(() => {
-        fetch('http:127.0.0.1:3001/api/users')
-        .then((response) => {
-            if(!response.ok) throw new Error(response.status);
-            else return response.json();
-          })
-          .then((data) => {
-            setUsers(data);
-            console.log(data);
-          })
-          .catch((error) => {
-            console.log('error: ' + error);
-          })}, [] );
+        setUsers(subscriber);
+        console.log(users);
+        }, [] );
 
     return (
         <DataTable
-            rows={users}
+            rows={subscriber}
             columns={columns}
             loading={!users.length}
             sx={userTableStyles}
+            rowId={(row) => row.creator_id}
         />
     );
 };

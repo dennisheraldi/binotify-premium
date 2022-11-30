@@ -1,9 +1,10 @@
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 
-const BasicCard = ({header, content}) => {
+const BasicCard = ({style,header, content}) => {
     return (
-        <Card>
+        <Card
+        sx = {style}>
             {header}
             <CardContent>
                 {content}

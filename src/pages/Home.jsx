@@ -22,6 +22,7 @@ export function Home() {
             <Header title={title} />
             <GridWrapper>
                 <BasicCard 
+                style={{width: 900, margin: 'auto'}}
                 content={<UserTable onError={() => setOpen(true)} />}
                 />
                 <BasicSnackbar

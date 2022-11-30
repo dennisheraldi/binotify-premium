@@ -1,11 +1,13 @@
 import { useState } from 'preact/hooks'
 import { DataGrid } from '@mui/x-data-grid';
 
+
 const DataTable = ({
     rows,
     columns,
     loading,
-    sx
+    sx,
+    rowId
 }) => {
     const [pageSize, setPageSize] = useState(2);
 
@@ -15,11 +17,11 @@ const DataTable = ({
             columns={columns}
             loading={loading}
             sx={sx}
-            checkboxSelection
             pagination
             pageSize={pageSize}
             onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
             rowsPerPageOptions={[2, 5, 10]}
+            getRowId={rowId}
         />
     );
 };

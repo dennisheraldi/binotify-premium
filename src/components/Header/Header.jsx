@@ -1,10 +1,5 @@
-import CommonButton from '../common/CommonButton/CommonButton'
-import NotificationBell from '../common/NotificationBell/NotificationBell'
 import Avatar from '@mui/material/Avatar';
-import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import Tooltip from '@mui/material/Tooltip';
-import HelpIcon from '@mui/icons-material/Help';
 import Box from '@mui/material/Box';
 import { headerStyles } from './styles';
 
@@ -22,8 +17,7 @@ const Header = ({ title }) => {
                     </Typography>
                 </Box>
                 <Box sx={headerStyles.rightSide}>
-                    <NotificationBell
-                        iconColor="white"
+                    <Logout
                     />
                     <Avatar src="https://mui.com/static/images/avatar/1.jpg" />
                 </Box>
