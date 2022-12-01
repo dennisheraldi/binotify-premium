@@ -1,17 +1,28 @@
 import { useEffect, useMemo, useState } from 'preact/hooks'
 import DataTable from '../common/DataTable/DataTable';
 import UserActions from './UserActions';
+import {getUsers} from '../../actions/users';
+import {useValue} from '../../context/ContextProvider';
 
 const userTableStyles = {
     height: '650px',
     width: '100%',
     margin: 'auto',
+    display: 'flex',
     
 };
 
-const UserTable = ({ onError }) => {
-    const [users, setUsers] = useState([]);
+const UserTable = () => {
+    const {
+        state: { users },
+        dispatch,
+      } = useValue();
+    
     const [rowId, setRowId] = useState(null);
+
+    useEffect(() => {
+        if (users.length === 0) getUsers(dispatch);
+      }, []);
 
 const columns = useMemo(
     () => [
@@ -35,16 +46,11 @@ const subscriber = [{
   }
     ];
 
-    useEffect(() => {
-        setUsers(subscriber);
-        console.log(users);
-        }, [] );
-
     return (
         <DataTable
             rows={subscriber}
             columns={columns}
-            loading={!users.length}
+            loading={!subscriber.length}
             sx={userTableStyles}
             rowId={(row) => row.creator_id}
         />

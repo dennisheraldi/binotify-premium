@@ -1,7 +1,7 @@
-import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { headerStyles } from './styles';
+import CommonButton from '../common/CommonButton/CommonButton'
 
 const Header = ({ title }) => {
     return (
@@ -16,7 +16,12 @@ const Header = ({ title }) => {
                     </Typography>
                 </Box>
                 <Box sx={headerStyles.rightSide}>
-                    <Avatar src="https://mui.com/static/images/avatar/1.jpg" />
+                    <CommonButton
+                        sx={headerStyles.webButton}
+                        variant="outlined"
+                    >
+                        Log Out
+                    </CommonButton>
                 </Box>
             </Box>
             <Box sx={headerStyles.middleRow}>
