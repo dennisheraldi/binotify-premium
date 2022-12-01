@@ -32,6 +32,9 @@ import {
 // assets
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 
+//axios
+import axios from "../../../api/axios";
+
 // ============================|| FIREBASE - REGISTER ||============================ //
 
 const AuthRegister = () => {
@@ -96,6 +99,14 @@ const AuthRegister = () => {
                 ) => {
                     try {
                         console.log(values);
+                        const response = await axios.post("users", {
+                            username: values.username,
+                            email: values.email,
+                            name: values.name,
+                            password: values.password,
+                            isAdmin: false,
+                        });
+                        console.log(response);
                         setStatus({ success: false });
                         setSubmitting(false);
                     } catch (err) {
