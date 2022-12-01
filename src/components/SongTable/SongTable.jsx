@@ -7,7 +7,7 @@ import axios from "axios";
 //Setup Axios
 // Sample token
 const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0LCJlbWFpbCI6InNpbmdlcjFAZ21haWwuY29tIiwidXNlcm5hbWUiOiJzaW5nZXIxIiwibmFtZSI6InNpbmdlciAxIiwiaXNBZG1pbiI6ZmFsc2UsImlhdCI6MTY2OTgzNDgyMX0.ohKhj20QspLcJ8GCTjDdWwFMXE2Fwc_nfeMZMeqo3Uo";
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0LCJlbWFpbCI6InBlbnlhbnlpMUBnbWFpbC5jb20iLCJ1c2VybmFtZSI6InBlbnlhbnlpMSIsIm5hbWUiOiJwZW55YW55aTEiLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNjY5OTAwNzA4fQ.joGNzTgOWr3DTsV_-y0mwApkyJMe3ItLazoN1YVK52U";
 
 const axiosInstance = axios.create({
     baseURL: "http://localhost:3000/api",
