@@ -14,9 +14,9 @@ export function Subscriber() {
             <Header title={title} />
             <GridWrapper>
                 <BasicCard 
-                style={{width: 900, margin: 'auto'}}
-                content={<UserTable />}
-                />
+                    style={{width: 900, margin: 'auto'}}>
+                    <UserTable />
+                </BasicCard>
                 <BasicSnackbar
                 />
             </GridWrapper>

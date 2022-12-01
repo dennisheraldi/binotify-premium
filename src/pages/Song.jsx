@@ -4,17 +4,6 @@ import Header from "../components/Header/Header";
 import GridWrapper from "../components/common/GridWrapper/GridWrapper";
 import BasicCard from "../components/common/BasicCard/BasicCard";
 
-import {
-    Button,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogContentText,
-    DialogTitle,
-    Stack,
-    TextField,
-    Typography,
-} from "@mui/material";
 import SongTable from "../components/SongTable/SongTable";
 import axios from "axios";
 
@@ -34,10 +23,10 @@ export function Song() {
         <>
             <Grid container>
                 <Header title={title} />
-                <GridWrapper>
-                    <BasicCard
-                        content={<SongTable onError={() => setOpen(true)} />}
-                    />
+                <GridWrapper >
+                    <BasicCard>
+                        <SongTable onError={() => setOpen(true)} />
+                    </BasicCard>
                 </GridWrapper>
             </Grid>
         </>
