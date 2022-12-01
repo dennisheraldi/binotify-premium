@@ -41,7 +41,16 @@ const AuthRegister = () => {
         setShowPassword(!showPassword);
     };
 
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const handleClickShowConfirmPassword = () => {
+        setShowConfirmPassword(!showConfirmPassword);
+    };
+
     const handleMouseDownPassword = (event) => {
+        event.preventDefault();
+    };
+
+    const handleMouseDownConfirmPassword = (event) => {
         event.preventDefault();
     };
 
@@ -62,6 +71,7 @@ const AuthRegister = () => {
                     email: "",
                     name: "Artist",
                     password: "",
+                    confirmPassword: "",
                     submit: null,
                 }}
                 validationSchema={Yup.object().shape({
@@ -75,6 +85,10 @@ const AuthRegister = () => {
                     password: Yup.string()
                         .max(255)
                         .required("Password is required"),
+                    confirmPassword: Yup.string().oneOf(
+                        [Yup.ref("password"), null],
+                        "Passwords must match"
+                    ),
                 })}
                 onSubmit={async (
                     values,
@@ -105,34 +119,6 @@ const AuthRegister = () => {
                         <Grid container spacing={2}>
                             <Grid item xs={12}>
                                 <Stack spacing={1}>
-                                    <InputLabel htmlFor="username-signup">
-                                        Username*
-                                    </InputLabel>
-                                    <OutlinedInput
-                                        id="username-login"
-                                        type="username"
-                                        value={values.username}
-                                        name="username"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        placeholder="User"
-                                        fullWidth
-                                        error={Boolean(
-                                            touched.username && errors.username
-                                        )}
-                                    />
-                                    {touched.username && errors.username && (
-                                        <FormHelperText
-                                            error
-                                            id="helper-text-username-signup"
-                                        >
-                                            {errors.username}
-                                        </FormHelperText>
-                                    )}
-                                </Stack>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <Stack spacing={1}>
                                     <InputLabel htmlFor="name-signup">
                                         Name
                                     </InputLabel>
@@ -159,6 +145,36 @@ const AuthRegister = () => {
                                     )}
                                 </Stack>
                             </Grid>
+
+                            <Grid item xs={12}>
+                                <Stack spacing={1}>
+                                    <InputLabel htmlFor="username-signup">
+                                        Username*
+                                    </InputLabel>
+                                    <OutlinedInput
+                                        id="username-login"
+                                        type="username"
+                                        value={values.username}
+                                        name="username"
+                                        onBlur={handleBlur}
+                                        onChange={handleChange}
+                                        placeholder="User"
+                                        fullWidth
+                                        error={Boolean(
+                                            touched.username && errors.username
+                                        )}
+                                    />
+                                    {touched.username && errors.username && (
+                                        <FormHelperText
+                                            error
+                                            id="helper-text-username-signup"
+                                        >
+                                            {errors.username}
+                                        </FormHelperText>
+                                    )}
+                                </Stack>
+                            </Grid>
+
                             <Grid item xs={12}>
                                 <Stack spacing={1}>
                                     <InputLabel htmlFor="email-signup">
@@ -188,6 +204,7 @@ const AuthRegister = () => {
                                     )}
                                 </Stack>
                             </Grid>
+
                             <Grid item xs={12}>
                                 <Stack spacing={1}>
                                     <InputLabel htmlFor="password-signup">
@@ -269,6 +286,66 @@ const AuthRegister = () => {
                                     </Grid>
                                 </FormControl>
                             </Grid>
+
+                            <Grid item xs={12}>
+                                <Stack spacing={1}>
+                                    <InputLabel htmlFor="password-signup">
+                                        Confirm Password
+                                    </InputLabel>
+                                    <OutlinedInput
+                                        fullWidth
+                                        error={Boolean(
+                                            touched.confirmPassword &&
+                                                errors.confirmPassword
+                                        )}
+                                        id="confirm-password-signup"
+                                        type={
+                                            showConfirmPassword
+                                                ? "text"
+                                                : "password"
+                                        }
+                                        value={values.confirmPassword}
+                                        name="confirmPassword"
+                                        onBlur={handleBlur}
+                                        onChange={(e) => {
+                                            handleChange(e);
+                                        }}
+                                        endAdornment={
+                                            <InputAdornment position="end">
+                                                <IconButton
+                                                    aria-label="toggle password visibility"
+                                                    onClick={
+                                                        handleClickShowConfirmPassword
+                                                    }
+                                                    onMouseDown={
+                                                        handleMouseDownConfirmPassword
+                                                    }
+                                                    edge="end"
+                                                    size="large"
+                                                >
+                                                    {showConfirmPassword ? (
+                                                        <EyeOutlined />
+                                                    ) : (
+                                                        <EyeInvisibleOutlined />
+                                                    )}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        }
+                                        placeholder="******"
+                                        inputProps={{}}
+                                    />
+                                    {touched.confirmPassword &&
+                                        errors.confirmPassword && (
+                                            <FormHelperText
+                                                error
+                                                id="helper-text-password-signup"
+                                            >
+                                                {errors.confirmPassword}
+                                            </FormHelperText>
+                                        )}
+                                </Stack>
+                            </Grid>
+
                             {errors.submit && (
                                 <Grid item xs={12}>
                                     <FormHelperText error>
