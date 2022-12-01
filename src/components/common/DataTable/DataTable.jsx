@@ -1,18 +1,11 @@
-import { useState } from 'preact/hooks'
-import { DataGrid } from '@mui/x-data-grid';
+import { useState } from "preact/hooks";
+import { DataGrid } from "@mui/x-data-grid";
 
-
-const DataTable = ({
-    rows,
-    columns,
-    loading,
-    sx,
-    rowId
-}) => {
-    const [pageSize, setPageSize] = useState(2);
+const DataTable = ({ rows, columns, loading, sx, rowId }) => {
+    const [pageSize, setPageSize] = useState(5);
 
     return (
-        <DataGrid 
+        <DataGrid
             rows={rows}
             columns={columns}
             loading={loading}
@@ -20,10 +13,10 @@ const DataTable = ({
             pagination
             pageSize={pageSize}
             onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-            rowsPerPageOptions={[2, 5, 10]}
+            rowsPerPageOptions={[5, 10, 15]}
             getRowId={rowId}
         />
     );
 };
 
-export default DataTable
+export default DataTable;
