@@ -23,8 +23,8 @@ export function Song() {
         <>
             <Grid container>
                 <Header title={title} />
-                <GridWrapper >
-                    <BasicCard>
+                <GridWrapper>
+                    <BasicCard style={{ width: "65%", margin: "auto" }}>
                         <SongTable onError={() => setOpen(true)} />
                     </BasicCard>
                 </GridWrapper>

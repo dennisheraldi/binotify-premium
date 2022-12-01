@@ -28,54 +28,6 @@ import {
 
 import { Stack } from "@mui/system";
 
-const example_songs = [
-    {
-        judul: "My New Song 1 Reborn",
-        audio_path: "public/audio/My New Song Reborn.mp3",
-        song_id: 1,
-    },
-    {
-        judul: "My New Song 1 Reborn",
-        audio_path: "public/audio/My New Song Reborn.mp3",
-        song_id: 2,
-    },
-    {
-        judul: "My New Song 1 Reborn",
-        audio_path: "public/audio/My New Song Reborn.mp3",
-        song_id: 3,
-    },
-    {
-        judul: "My New Song 1 Reborn",
-        audio_path: "public/audio/My New Song Reborn.mp3",
-        song_id: 4,
-    },
-    {
-        judul: "My New Song 1 Reborn",
-        audio_path: "public/audio/My New Song Reborn.mp3",
-        song_id: 5,
-    },
-    {
-        judul: "My New Song 1 Reborn",
-        audio_path: "public/audio/My New Song Reborn.mp3",
-        song_id: 6,
-    },
-    {
-        judul: "My New Song 1 Reborn",
-        audio_path: "public/audio/My New Song Reborn.mp3",
-        song_id: 7,
-    },
-    {
-        judul: "My New Song 1 Reborn",
-        audio_path: "public/audio/My New Song Reborn.mp3",
-        song_id: 8,
-    },
-    {
-        judul: "My New Song 1 Reborn",
-        audio_path: "public/audio/My New Song Reborn.mp3",
-        song_id: 9,
-    },
-];
-
 const songTableStyles = {
     height: "375px",
     width: "100%",
