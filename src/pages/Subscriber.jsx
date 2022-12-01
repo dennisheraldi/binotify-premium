@@ -6,15 +6,7 @@ import BasicCard from '../components/common/BasicCard/BasicCard'
 import UserTable from '../components/UserTable/UserTable'
 import BasicSnackbar from '../components/common/BasicSnackbar/BasicSnackbar'
 
-export function Home() {
-    const [open, setOpen] = useState(false);
-
-    const handleClose = (event, reason) => {
-        if (reason === 'clickaway') {
-        return;
-        }
-        setOpen(false);
-    };
+export function Subscriber() {
 
     const title = 'List Permintaan Subscription'
     return (
@@ -23,13 +15,9 @@ export function Home() {
             <GridWrapper>
                 <BasicCard 
                 style={{width: 900, margin: 'auto'}}
-                content={<UserTable onError={() => setOpen(true)} />}
+                content={<UserTable />}
                 />
                 <BasicSnackbar
-                open={open}
-                severity="error"
-                message="Tidak dapat mengambil data"
-                onClose={handleClose}
                 />
             </GridWrapper>
         </Grid>
