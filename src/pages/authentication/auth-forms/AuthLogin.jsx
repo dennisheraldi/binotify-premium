@@ -55,7 +55,11 @@ const AuthLogin = () => {
                 validationSchema={Yup.object().shape({
                     username: Yup.string()
                         .max(255)
-                        .required("Username is required"),
+                        .required("Username is required")
+                        .matches(
+                            /^[A-Za-z][A-Za-z0-9]*(?:_[A-Za-z0-9]+)*$/,
+                            "Username must be alphanumeric and can contain underscores. Starts with a letter."
+                        ),
                     password: Yup.string()
                         .max(255)
                         .required("Password is required"),
@@ -65,6 +69,7 @@ const AuthLogin = () => {
                     { setErrors, setStatus, setSubmitting }
                 ) => {
                     try {
+                        values.username = values.username.toLowerCase();
                         console.log(values);
                         setStatus({ success: false });
                         setSubmitting(false);
