@@ -5,7 +5,6 @@ import GridWrapper from "../components/common/GridWrapper/GridWrapper";
 import BasicCard from "../components/common/BasicCard/BasicCard";
 
 import SongTable from "../components/SongTable/SongTable";
-import axios from "axios";
 
 export function Song() {
     const title = "Kelola Lagu";

@@ -2,18 +2,6 @@ import { useEffect, useState, useMemo, useRef } from "preact/hooks";
 import DataTable from "../common/DataTable/DataTable";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
-import axios from "axios";
-
-//Setup Axios
-// Sample token
-const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0LCJlbWFpbCI6InBlbnlhbnlpMUBnbWFpbC5jb20iLCJ1c2VybmFtZSI6InBlbnlhbnlpMSIsIm5hbWUiOiJwZW55YW55aTEiLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNjY5OTAwNzA4fQ.joGNzTgOWr3DTsV_-y0mwApkyJMe3ItLazoN1YVK52U";
-
-const axiosInstance = axios.create({
-    baseURL: "http://localhost:3000/api",
-    timeout: 1000,
-    headers: { Authorization: `Bearer ${token}` },
-});
 
 import {
     Button,
@@ -27,6 +15,7 @@ import {
 } from "@mui/material";
 
 import { Stack } from "@mui/system";
+import { API } from "../../context/API";
 
 const songTableStyles = {
     height: "375px",
@@ -40,7 +29,7 @@ const SongTable = () => {
     const [open, setOpen] = useState(false);
     const [openEdit, setOpenEdit] = useState(false);
 
-    const [songs, setsongs] = useState([]);
+    const [songs, setSongs] = useState(null);
 
     const valueRef = useRef("");
     const [file, setFile] = useState(null);
@@ -76,10 +65,10 @@ const SongTable = () => {
         data.append("file", file);
 
         // Transfer data to server
-        await axiosInstance
+        await API
             .post("/songs/upload", data)
             .then(async (res) => {
-                await axiosInstance.post("/songs", {
+                await API.post("/songs", {
                     judul: valueRef.current.value,
                     audio_path: "public/audio/" + res.data.filename,
                 });
@@ -114,7 +103,7 @@ const SongTable = () => {
         // Transfer editted data to server
         // If file is not changed, only update judul
         if (editfile == null) {
-            await axiosInstance
+            await API
                 .put("/songs/" + oldvalue.song_id, {
                     judul: editJudulRef.current.value,
                 })
@@ -122,10 +111,10 @@ const SongTable = () => {
                     console.error(err);
                 });
         } else {
-            await axiosInstance
+            await API
                 .post("/songs/upload", data)
                 .then(async (res) => {
-                    await axiosInstance.put("/songs/" + oldvalue.song_id, {
+                    await API.put("/songs/" + oldvalue.song_id, {
                         judul: editJudulRef.current.value,
                         audio_path: "public/audio/" + res.data.filename,
                     });
@@ -140,7 +129,7 @@ const SongTable = () => {
 
     const handleDeleteClick = async (id) => {
         try {
-            await axiosInstance.delete(`/songs/${id}`);
+            await API.delete(`/songs/${id}`);
             getSongs();
         } catch (error) {
             console.log(error);
@@ -190,9 +179,8 @@ const SongTable = () => {
     );
 
     const getSongs = async () => {
-        // Fetch songs from API with axios
-        // const response = await axiosInstance.get("/songs");
-        // setsongs(response.data);
+        const response = await API.get("/songs");
+        setSongs(response.data);
     };
 
     useEffect(() => {
@@ -267,11 +255,11 @@ const SongTable = () => {
                 </DialogActions>
             </Dialog>
             <DataTable
-                rows={songs}
+                rows={songs ?? []}
                 columns={columns}
-                loading={!songs.length}
+                loading={songs === null}
                 sx={songTableStyles}
-                rowId={(row) => row.song_id}
+                rowID={(row) => row.song_id}
             />
         </>
     );

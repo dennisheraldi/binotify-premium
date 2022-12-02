@@ -5,11 +5,14 @@ import { ThemeProvider } from '@mui/material/styles'
 import { theme } from './components/Theme/Theme'
 import router from './router'
 import ContextProvider from './context/ContextProvider';
+import { AuthProvider } from './context/Auth'
 
 render(
-    <ContextProvider>
-    <ThemeProvider theme={theme}>
-        <RouterProvider router={router} />
-    </ThemeProvider>
-    </ContextProvider>,
+    <AuthProvider>
+        <ContextProvider>
+            <ThemeProvider theme={theme}>
+                <RouterProvider router={router} />
+            </ThemeProvider>
+        </ContextProvider>
+    </AuthProvider>,
     document.getElementById('app'))

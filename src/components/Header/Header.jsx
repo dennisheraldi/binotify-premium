@@ -9,9 +9,11 @@ import MenuItem from "@mui/material/MenuItem";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import * as React from "react";
 import { Button } from "@mui/material";
+import { useAuth } from "../../context/Auth";
 
 
 const Header = ({ title }) => {
+    const {authMethod: auth, user} = useAuth();
     const StyledMenu = styled((props) => (
         <Menu
             elevation={0}
@@ -63,6 +65,10 @@ const Header = ({ title }) => {
     const handleClose = () => {
         setAnchorEl(null);
     };
+    const handleLogout = () => {
+        auth.logout();
+        handleClose();
+    };
 
     return (
         <Box sx={headerStyles.wrapper}>
@@ -88,7 +94,7 @@ const Header = ({ title }) => {
                             onClick={handleClick}
                             endIcon={<KeyboardArrowDownIcon />}
                         >
-                            Akun
+                            {user.name}
                         </Button>
                         <StyledMenu
                             id="demo-customized-menu"
@@ -99,7 +105,7 @@ const Header = ({ title }) => {
                             open={open}
                             onClose={handleClose}
                         >
-                            <MenuItem onClick={handleClose} disableRipple>
+                            <MenuItem onClick={handleLogout} disableRipple>
                                 Logout
                             </MenuItem>
                         </StyledMenu>

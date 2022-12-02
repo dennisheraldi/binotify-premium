@@ -6,16 +6,14 @@ import {
 } from "react-router-dom";
 import { Subscriber } from "./pages/Subscriber";
 import { Song } from "./pages/Song";
-import { Login } from "./pages/authentication/Login";
-import { Register } from "./pages/authentication/Register";
+import { Login } from "./pages/Login";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
         <Route>
-            <Route path="/" element={<Subscriber />} />
+            <Route path="/subscriber" element={<Subscriber />} />
             <Route path="/song" element={<Song />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
         </Route>
     )
 );

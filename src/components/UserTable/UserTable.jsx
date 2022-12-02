@@ -3,10 +3,8 @@ import DataTable from "../common/DataTable/DataTable";
 import { Button } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
-import axios from "axios";
 import { useValue } from "../../context/ContextProvider";
-import Loading from "../common/Loading/Loading";
-import { setEnvironmentData } from "worker_threads";
+import { API } from "../../context/API";
 
 const userTableStyles = {
     height: "375px",
@@ -15,26 +13,17 @@ const userTableStyles = {
     display: "flex",
 };
 
-const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0LCJlbWFpbCI6InBlbnlhbnlpMUBnbWFpbC5jb20iLCJ1c2VybmFtZSI6InBlbnlhbnlpMSIsIm5hbWUiOiJwZW55YW55aTEiLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNjY5OTAwNzA4fQ.joGNzTgOWr3DTsV_-y0mwApkyJMe3ItLazoN1YVK52U";
-
-const axiosInstance = axios.create({
-    baseURL: "http://localhost:8002/api",
-    timeout: 10000,
-    headers: { Authorization: `Bearer ${token}` },
-});
-
 const UserTable = () => {
-  const {
-    state: { loading },
-    dispatch,
-  } = useValue();
+    const {
+        state: { loading },
+        dispatch,
+    } = useValue();
     const [users, setUsers] = useState([]);
     const [success, setSuccess] = useState(false);
 
-    const getSubscription = async () => {
+    const getSubscription = () => {
       dispatch({ type: "START_LOADING" });
-       await axiosInstance.get("/subscriptions")
+       API.get("/subscriptions")
       .then((response) => { 
         console.log(response.data);
         setUsers(response.data.result);
@@ -46,8 +35,8 @@ const UserTable = () => {
       });
   };
 
-    const updateStatus = async (creator_id, subscriber_id, isApproved) => {
-        await axiosInstance.put(`/subscriptions/approve`, {
+    const updateStatus = (creator_id, subscriber_id, isApproved) => {
+        API.put(`/subscriptions/approve`, {
             subscriber_id, 
             creator_id,
             isApproved,
@@ -71,8 +60,6 @@ const UserTable = () => {
       getSubscription();
       setSuccess(false);
     }, [success]);
-
-    
 
     const columns = useMemo(
         () => [
@@ -123,19 +110,6 @@ const UserTable = () => {
         ],
         []
     );
-
-    const subscriber = [
-        {
-            creator_id: "1",
-            subscriber_id: "2",
-            status: "PENDING",
-        },
-        {
-            creator_id: "2",
-            subscriber_id: "3",
-            status: "PENDING",
-        },
-    ];
 
     return (
         <DataTable
