@@ -19,10 +19,11 @@ API.interceptors.request.use(
 );
 
 API.interceptors.response.use(
+    null,
     (error) => {
         if (error.response?.status === 401) {
             useAuth().authMethod.logout();
         }
-        return Promise.resolve(error);
+        return Promise.reject(error);
     }
 );

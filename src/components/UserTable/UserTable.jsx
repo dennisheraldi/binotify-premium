@@ -25,7 +25,6 @@ const UserTable = () => {
       dispatch({ type: "START_LOADING" });
        API.get("/subscriptions")
       .then((response) => { 
-        console.log(response.data);
         setUsers(response.data.result);
         dispatch({ type: "STOP_LOADING" });
       })
@@ -41,9 +40,13 @@ const UserTable = () => {
             creator_id,
             isApproved,
         })
-        .then(() => {
+        .then((resp) => {
           setSuccess(true);
-          dispatch({ type: 'UPDATE_ALERT', payload: { open: true, severity: 'success', message: "Berhasil dikirim" } })
+          if ('error' in resp.data) {
+            console.log(resp.data.error);
+            dispatch({ type: 'UPDATE_ALERT', payload: { open: true, severity: 'error', message: `Gagal dikirim` } });
+          } else
+            dispatch({ type: 'UPDATE_ALERT', payload: { open: true, severity: 'success', message: "Berhasil dikirim" } })
         }) 
         .catch((err) => {
           dispatch({ type: 'UPDATE_ALERT', payload: { open: true, severity: 'error', message: "Gagal dikirim" } });
@@ -82,7 +85,6 @@ const UserTable = () => {
                                         "Apakah anda yakin menerima permintaan subscription ini?"
                                     )
                                   )
-                                  console.log(params);
                                     updateStatus(params.row.creator_id, params.row.subscriber_id, true);
                                 }}
                                 startIcon={<CheckIcon />}
