@@ -1,11 +1,12 @@
 import { useEffect, useMemo, useState } from "preact/hooks";
 import DataTable from "../common/DataTable/DataTable";
-import UserActions from "./UserActions";
-import { getUsers } from "../../actions/users";
-import { useValue } from "../../context/ContextProvider";
 import { Button } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
+import axios from "axios";
+import { useValue } from "../../context/ContextProvider";
+import Loading from "../common/Loading/Loading";
+import { setEnvironmentData } from "worker_threads";
 
 const userTableStyles = {
     height: "375px",
@@ -14,17 +15,64 @@ const userTableStyles = {
     display: "flex",
 };
 
-const UserTable = () => {
-    const {
-        state: { users },
-        dispatch,
-    } = useValue();
+const token =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0LCJlbWFpbCI6InBlbnlhbnlpMUBnbWFpbC5jb20iLCJ1c2VybmFtZSI6InBlbnlhbnlpMSIsIm5hbWUiOiJwZW55YW55aTEiLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNjY5OTAwNzA4fQ.joGNzTgOWr3DTsV_-y0mwApkyJMe3ItLazoN1YVK52U";
 
-    const [rowId, setRowId] = useState(null);
+const axiosInstance = axios.create({
+    baseURL: "http://localhost:8002/api",
+    timeout: 10000,
+    headers: { Authorization: `Bearer ${token}` },
+});
+
+const UserTable = () => {
+  const {
+    state: { loading },
+    dispatch,
+  } = useValue();
+    const [users, setUsers] = useState([]);
+    const [success, setSuccess] = useState(false);
+
+    const getSubscription = async () => {
+      dispatch({ type: "START_LOADING" });
+       await axiosInstance.get("/subscriptions")
+      .then((response) => { 
+        console.log(response.data);
+        setUsers(response.data.result);
+        dispatch({ type: "STOP_LOADING" });
+      })
+      .catch((error) => { 
+        console.log(error);
+        dispatch({ type: 'UPDATE_ALERT', payload: { open: true, severity: 'error', message: "Gagal di proses" } });
+      });
+  };
+
+    const updateStatus = async (creator_id, subscriber_id, isApproved) => {
+        await axiosInstance.put(`/subscriptions/approve`, {
+            subscriber_id, 
+            creator_id,
+            isApproved,
+        })
+        .then(() => {
+          setSuccess(true);
+          dispatch({ type: 'UPDATE_ALERT', payload: { open: true, severity: 'success', message: "Berhasil dikirim" } })
+        }) 
+        .catch((err) => {
+          dispatch({ type: 'UPDATE_ALERT', payload: { open: true, severity: 'error', message: "Gagal dikirim" } });
+          console.error(err);
+        });
+        
+    };
 
     useEffect(() => {
-        if (users.length === 0) getUsers(dispatch);
+        getSubscription();
     }, []);
+
+    useEffect(() => {
+      getSubscription();
+      setSuccess(false);
+    }, [success]);
+
+    
 
     const columns = useMemo(
         () => [
@@ -37,14 +85,18 @@ const UserTable = () => {
                 headerName: "Actions",
                 width: 250,
                 cellClassName: "actions",
-                getActions: ({ row }) => {
+                getActions: ({ ...params }) => {
                     return [
                         <>
                             <Button
                                 onClick={() => {
+                                  if (
                                     confirm(
                                         "Apakah anda yakin menerima permintaan subscription ini?"
-                                    );
+                                    )
+                                  )
+                                  console.log(params);
+                                    updateStatus(params.row.creator_id, params.row.subscriber_id, true);
                                 }}
                                 startIcon={<CheckIcon />}
                             >
@@ -54,9 +106,12 @@ const UserTable = () => {
                         <Button
                             color="error"
                             onClick={() => {
+                              if (
                                 confirm(
                                     "Apakah anda yakin menolak permintaan subscription ini?"
-                                );
+                                )
+                                )
+                                updateStatus(params.row.creator_id, params.row.subscriber_id, false);
                             }}
                             startIcon={<ClearIcon />}
                         >
@@ -84,11 +139,11 @@ const UserTable = () => {
 
     return (
         <DataTable
-            rows={subscriber}
+            rows={users}
             columns={columns}
-            loading={!subscriber.length}
+            loading={loading}
             sx={userTableStyles}
-            rowId={(row) => row.creator_id}
+            rowID={(row) => `${row.subscriber_id} ${row.creator_id}`}
         />
     );
 };

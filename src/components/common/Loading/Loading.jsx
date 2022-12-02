@@ -1,11 +1,15 @@
-import Skeleton from '@mui/material/Skeleton';
+import { Backdrop, CircularProgress } from '@mui/material';
+import { useValue } from '../../../context/ContextProvider';
 
-const Loading = ({ children }) => {
+const Loading = () => {
+  const {
+    state: { loading },
+  } = useValue();
   return (
-      <>
-        <Skeleton>{children}</Skeleton>
-    </>
-  )
-}
+    <Backdrop open={loading}>
+      <CircularProgress sx={{ color: 'blue' }} />
+    </Backdrop>
+  );
+};
 
 export default Loading;

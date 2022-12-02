@@ -191,8 +191,8 @@ const SongTable = () => {
 
     const getSongs = async () => {
         // Fetch songs from API with axios
-        const response = await axiosInstance.get("/songs");
-        setsongs(response.data);
+        // const response = await axiosInstance.get("/songs");
+        // setsongs(response.data);
     };
 
     useEffect(() => {
