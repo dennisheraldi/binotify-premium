@@ -80,7 +80,11 @@ const AuthRegister = () => {
                 validationSchema={Yup.object().shape({
                     username: Yup.string()
                         .max(255)
-                        .required("Username is required"),
+                        .required("Username is required")
+                        .matches(
+                            /^[A-Za-z][A-Za-z0-9]*(?:_[A-Za-z0-9]+)*$/,
+                            "Username must be alphanumeric and can contain underscores. Starts with a letter."
+                        ),
                     email: Yup.string()
                         .email("Must be a valid email")
                         .max(255)
@@ -98,6 +102,8 @@ const AuthRegister = () => {
                     { setErrors, setStatus, setSubmitting }
                 ) => {
                     try {
+                        values.username = values.username.toLowerCase();
+                        values.email = values.email.toLowerCase();
                         console.log(values);
                         const response = await axios.post("users", {
                             username: values.username,
